@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:235696168560:android:94640e0bd74136ce139eb5",
+        "mobilesdk_app_id": "1:235696168560:android:564ed52717f421c1139eb5",
         "android_client_info": {
           "package_name": "com.example.app"
         }
@@ -30,6 +30,49 @@
             {
               "client_id": "235696168560-pa7g4uefpld11jrkdebumpm7khshvgke.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "235696168560-9pqgtmt7liso7m787cvqkdv6l7n88i5q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235696168560:android:94640e0bd74136ce139eb5",
+        "android_client_info": {
+          "package_name": "com.example.ciclistas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235696168560-pa7g4uefpld11jrkdebumpm7khshvgke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuvDWCty_S4_3hvuGySQodVj6VvvLwF5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235696168560-pa7g4uefpld11jrkdebumpm7khshvgke.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "235696168560-9pqgtmt7liso7m787cvqkdv6l7n88i5q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.app"
+              }
             }
           ]
         }
