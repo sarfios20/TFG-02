@@ -30,9 +30,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Position? _position;
   String currentZone = "";
   double distanceAlert = 250.0;
-  double distanceAlcance = 50.0;
+  double distanceAlcance = 100.0;
   int alertCooldown = 30;
+  int alcanceCooldown = 30;
   DateTime timeLast = DateTime.now();
+  DateTime timeLast2 = DateTime.now();
 
   Map<String, UserSubscription> zonesListening = {};
   Map<String, UserSubscription> zonesListening2 = {};
@@ -130,15 +132,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
     DateTime curent = DateTime.now();
     final difference = curent.difference(timeLast).inSeconds;
+    final difference2 = curent.difference(timeLast2).inSeconds;
+    if(distance < distanceAlcance && difference2 > alcanceCooldown){
+      alcanceDB(cyclistId, lat, lon);
+      timeLast2 = DateTime.now();
+    }
     if(difference < alertCooldown){
       return;
     }
     alert();
     timeLast = DateTime.now();
-    if(distance < distanceAlcance){
-      print("aaaaaaaaaaaaaa");
-      alcanceDB(cyclistId, lat, lon);
-    }
+
   }
 
   void addMarkerFromDB (DataSnapshot snapshot, UserType type){
