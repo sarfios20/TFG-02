@@ -16,9 +16,25 @@ const database = firebase.database();
 
 // Read data from the database
 const ref = database.ref('Incidente');
+const refAlcances = database.ref('Alcances');
+
+function myFunction() {
+    refAlcances.on('value', function(snapshot) {
+        const data = snapshot.val();
+        for (const uid in data) {
+            for (const timestamp in data[uid]) {
+                console.log(timestamp);
+                console.log(data[uid][timestamp]['IdConductor']);
+                console.log(data[uid][timestamp]['Lat']);
+                console.log(data[uid][timestamp]['Lon']);
+            }
+        }
+    });
+}
 
 
 function initMap() {
+    /*
   // Set the center of the map
   var center = {lat: 40.73877, lng: -3.8235};
 
@@ -43,5 +59,5 @@ function initMap() {
       }
   }
 });
-
+*/
 }
