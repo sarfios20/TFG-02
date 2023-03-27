@@ -31,12 +31,8 @@ function initMap() {
   ref.on('value', function(snapshot) {
   const data = snapshot.val();
   for (const zone in data) {
-      console.log(zone);
       for (const uid in data[zone]) {
-          console.log(uid);
           for (const timestamp in data[zone][uid]) {
-              console.log(timestamp);
-              console.log();
               var myLatlng = new google.maps.LatLng(data[zone][uid][timestamp]['Lat'],data[zone][uid][timestamp]['Lon']);
               var marker = new google.maps.Marker({
                   position: myLatlng,
