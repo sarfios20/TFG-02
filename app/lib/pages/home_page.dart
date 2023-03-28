@@ -47,8 +47,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late BitmapDescriptor carIcon;
 
   final LocationSettings locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.high,
+    accuracy: LocationAccuracy.bestForNavigation,
     distanceFilter: 10,
+  );
+  final LocationSettings locationSettings2 = const LocationSettings(
+    accuracy: LocationAccuracy.bestForNavigation,
+    distanceFilter: 0,
   );
 
   late GoogleMapController _googleMapController;
@@ -119,6 +123,17 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     DatabaseReference alcances = FirebaseDatabase.instance.ref("Alcances/$cyclistId");
 
     alcances.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
+      "Lat" : latitude,
+      "Lon" : longitude,
+      "IdConductor": uid
+    });
+  }
+
+  void alertaDB(String cyclistId, double latitude, double longitude){
+    String uid = ref.read(authenticationProvider).currentUser!.uid;
+    DatabaseReference alertas = FirebaseDatabase.instance.ref("Alertas/$cyclistId");
+
+    alertas.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
       "Lat" : latitude,
       "Lon" : longitude,
       "IdConductor": uid
@@ -329,6 +344,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     subscribeToZones(UserType.Ciclista);
     getUserFromZone(UserType.Ciclista);
     getUserFromZone(UserType.Conductor);
+    checkAll();
   }
 
   void databaseSwitch() {
@@ -394,13 +410,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       updateMapPosition();
     });
 
-    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
+    Geolocator.getPositionStream(locationSettings: locationSettings2).listen((Position? position) {
       if(position != null){
         _position = position;
         String zone = currentZone;
         updateZone();
-        updatePositionDB();
-
+        //quizas gestionar subscripciones en updateZone()
         if(zone != currentZone){
           subscribeToZones(type);
         }
@@ -409,6 +424,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           checkAll();
         }
         updateMapPosition();
+      }
+    });
+
+    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
+      if(position != null){
+        updatePositionDB();
       }
     });
   }
