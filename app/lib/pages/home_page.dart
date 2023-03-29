@@ -39,6 +39,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Map<String, UserSubscription> zonesListening = {};
   Map<String, UserSubscription> zonesListening2 = {};
 
+  Map<String, double> cyclistAlert = {};
+
   final Set<Marker> _markers = {};
 
   final User? user = Auth().currentUser;
@@ -138,6 +140,29 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       "Lon" : longitude,
       "IdConductor": uid
     });
+  }
+
+  void checkAlert(String cyclistId, double lat, double lon){
+    double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
+    if(distance > distanceAlert){
+      return;
+    }
+    cyclistAlert[cyclistId] = _position!.speed;
+    DateTime curent = DateTime.now();
+    final difference = curent.difference(timeLast).inSeconds;
+    if(difference > alertCooldown){
+      alert();
+    }
+  }
+
+  void checkAlcance(String cyclistId, double lat, double lon){
+    double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
+    DateTime curent = DateTime.now();
+    final difference2 = curent.difference(timeLast2).inSeconds;
+    if(distance < distanceAlcance && difference2 > alcanceCooldown){
+      alcanceDB(cyclistId, lat, lon);
+      timeLast2 = DateTime.now();
+    }
   }
 
   void checkDistance(String cyclistId, double lat, double lon){
