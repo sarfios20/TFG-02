@@ -188,6 +188,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     if(!alertados.containsKey(cyclistId)){
       alertados[cyclistId] = _position!.speed;
     }
+    alertaDB(cyclistId, lat, lon);
     alert();
     timeLast = DateTime.now();
   }
@@ -444,6 +445,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     Geolocator.getPositionStream(locationSettings: locationSettings2).listen((Position? position) {
       if(position != null){
+        double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, position.latitude, position.longitude);
+        if(distance > 10){
+          updatePositionDB();
+        }
         _position = position;
         String zone = currentZone;
         updateZone();
@@ -458,12 +463,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         updateMapPosition();
       }
     });
-
+/*
     Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
       if(position != null){
+        print('*****************');
         updatePositionDB();
       }
-    });
+    });*/
   }
 
   @override
