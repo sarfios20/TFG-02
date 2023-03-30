@@ -1,5 +1,5 @@
-class User {
-  User(this.id, this.lat, this.lon, this.type);
+class UserModel {
+  UserModel(this.id, this.lat, this.lon, this.type);
 
   final String id;
   final double lat;

@@ -10,7 +10,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:app/utils/user_subscription.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:app/utils/type.dart';
-
+import 'package:app/utils/userModel.dart';
 
 
 class MapScreen extends ConsumerStatefulWidget {
@@ -39,7 +39,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Map<String, UserSubscription> zonesListening = {};
   Map<String, UserSubscription> zonesListening2 = {};
 
-  Map<String, double> cyclistAlert = {};
+  //List<UserModel> listaUsuarios = [];
+
+  Map<String, double> alertados = {};
 
   final Set<Marker> _markers = {};
 
@@ -127,7 +129,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     alcances.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
       "Lat" : latitude,
       "Lon" : longitude,
-      "IdConductor": uid
+      "IdConductor": uid,
+      "speed_alcance": _position!.speed,
+      "speed_alert": alertados[cyclistId]
     });
   }
 
@@ -141,7 +145,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       "IdConductor": uid
     });
   }
-
+/*
   void checkAlert(String cyclistId, double lat, double lon){
     double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
     if(distance > distanceAlert){
@@ -164,10 +168,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       timeLast2 = DateTime.now();
     }
   }
-
+*/
   void checkDistance(String cyclistId, double lat, double lon){
     double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
     if(distance > distanceAlert){
+      alertados.remove(cyclistId);
       return;
     }
     DateTime curent = DateTime.now();
@@ -180,9 +185,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     if(difference < alertCooldown){
       return;
     }
+    if(!alertados.containsKey(cyclistId)){
+      alertados[cyclistId] = _position!.speed;
+    }
     alert();
     timeLast = DateTime.now();
-
   }
 
   void addMarkerFromDB (DataSnapshot snapshot, UserType type){
