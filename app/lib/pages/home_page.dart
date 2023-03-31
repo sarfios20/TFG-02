@@ -10,7 +10,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:app/utils/user_subscription.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:app/utils/type.dart';
-
+import 'package:app/utils/userModel.dart';
 
 
 class MapScreen extends ConsumerStatefulWidget {
@@ -39,6 +39,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Map<String, UserSubscription> zonesListening = {};
   Map<String, UserSubscription> zonesListening2 = {};
 
+  //List<UserModel> listaUsuarios = [];
+
+  Map<String, double> alertados = {};
+
   final Set<Marker> _markers = {};
 
   final User? user = Auth().currentUser;
@@ -47,8 +51,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   late BitmapDescriptor carIcon;
 
   final LocationSettings locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.high,
+    accuracy: LocationAccuracy.bestForNavigation,
     distanceFilter: 10,
+  );
+  final LocationSettings locationSettings2 = const LocationSettings(
+    accuracy: LocationAccuracy.bestForNavigation,
+    distanceFilter: 0,
   );
 
   late GoogleMapController _googleMapController;
@@ -121,13 +129,50 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     alcances.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
       "Lat" : latitude,
       "Lon" : longitude,
-      "IdConductor": uid
+      "IdConductor": uid,
+      "speed_alcance": _position!.speed,
+      "speed_alert": alertados[cyclistId]
     });
   }
 
+  void alertaDB(String cyclistId, double latitude, double longitude){
+    String uid = ref.read(authenticationProvider).currentUser!.uid;
+    DatabaseReference alertas = FirebaseDatabase.instance.ref("Alertas/$cyclistId");
+
+    alertas.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
+      "Lat" : latitude,
+      "Lon" : longitude,
+      "IdConductor": uid
+    });
+  }
+/*
+  void checkAlert(String cyclistId, double lat, double lon){
+    double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
+    if(distance > distanceAlert){
+      return;
+    }
+    cyclistAlert[cyclistId] = _position!.speed;
+    DateTime curent = DateTime.now();
+    final difference = curent.difference(timeLast).inSeconds;
+    if(difference > alertCooldown){
+      alert();
+    }
+  }
+
+  void checkAlcance(String cyclistId, double lat, double lon){
+    double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
+    DateTime curent = DateTime.now();
+    final difference2 = curent.difference(timeLast2).inSeconds;
+    if(distance < distanceAlcance && difference2 > alcanceCooldown){
+      alcanceDB(cyclistId, lat, lon);
+      timeLast2 = DateTime.now();
+    }
+  }
+*/
   void checkDistance(String cyclistId, double lat, double lon){
     double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
     if(distance > distanceAlert){
+      alertados.remove(cyclistId);
       return;
     }
     DateTime curent = DateTime.now();
@@ -140,9 +185,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     if(difference < alertCooldown){
       return;
     }
+    if(!alertados.containsKey(cyclistId)){
+      alertados[cyclistId] = _position!.speed;
+    }
+    alertaDB(cyclistId, lat, lon);
     alert();
     timeLast = DateTime.now();
-
   }
 
   void addMarkerFromDB (DataSnapshot snapshot, UserType type){
@@ -329,6 +377,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     subscribeToZones(UserType.Ciclista);
     getUserFromZone(UserType.Ciclista);
     getUserFromZone(UserType.Conductor);
+    checkAll();
   }
 
   void databaseSwitch() {
@@ -394,13 +443,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       updateMapPosition();
     });
 
-    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
+    Geolocator.getPositionStream(locationSettings: locationSettings2).listen((Position? position) {
       if(position != null){
+        double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, position.latitude, position.longitude);
+        if(distance > 10){
+          updatePositionDB();
+        }
         _position = position;
         String zone = currentZone;
         updateZone();
-        updatePositionDB();
-
+        //quizas gestionar subscripciones en updateZone()
         if(zone != currentZone){
           subscribeToZones(type);
         }
@@ -411,6 +463,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         updateMapPosition();
       }
     });
+/*
+    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
+      if(position != null){
+        print('*****************');
+        updatePositionDB();
+      }
+    });*/
   }
 
   @override

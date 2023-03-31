@@ -27,6 +27,8 @@ function myFunction() {
                 console.log(data[uid][timestamp]['IdConductor']);
                 console.log(data[uid][timestamp]['Lat']);
                 console.log(data[uid][timestamp]['Lon']);
+                console.log(data[uid][timestamp]['speed_alcance']);
+                console.log(data[uid][timestamp]['speed_alert']);
             }
         }
     });
@@ -34,7 +36,7 @@ function myFunction() {
 
 
 function initMap() {
-    /*
+
   // Set the center of the map
   var center = {lat: 40.73877, lng: -3.8235};
 
@@ -59,5 +61,5 @@ function initMap() {
       }
   }
 });
-*/
+
 }
