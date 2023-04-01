@@ -385,20 +385,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void updatePositionDB(){
     String uid = ref.read(authenticationProvider).currentUser!.uid;
+    UserModel user = UserModel(uid, _position!.latitude, _position!.longitude, type.name, _position!.speed);
 
-    DatabaseReference positionCiclista = FirebaseDatabase.instance.ref("${type.name}/$currentZone/$uid");
-
-    positionCiclista.set({
-      "Lat" : _position!.latitude,
-      "Lon" : _position!.longitude
-    });
-
-    updateHistorico.child(uid).child(DateTime.now().millisecondsSinceEpoch.toString()).set({
-      "Lat" : _position!.latitude,
-      "Lon" : _position!.longitude,
-      "tipo": type.name,
-      "speed": _position!.speed
-    });
+    user.updatePositionDB();
   }
 
   void alert(){
