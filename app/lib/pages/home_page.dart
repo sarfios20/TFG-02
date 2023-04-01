@@ -11,7 +11,7 @@ import 'package:app/utils/user_subscription.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:app/utils/type.dart';
 import 'package:app/utils/userModel.dart';
-
+import 'package:app/models/IncidenteModel.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -69,15 +69,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     await Auth().singOut();
   }
 
-  void incidente() async{
+  void incidente() {
     String uid = ref.read(authenticationProvider).currentUser!.uid;
-
-    DatabaseReference incidente = FirebaseDatabase.instance.ref("Incidente/$currentZone/$uid");
-
-    incidente.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
-      "Lat" : _position!.latitude,
-      "Lon" : _position!.longitude,
-    });
+    Incidente incidente = Incidente(uid, DateTime.now(), _position!.latitude, _position!.longitude);
+    incidente.saveToDB();
   }
 
   String formatter(double number){
