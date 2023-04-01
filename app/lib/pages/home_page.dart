@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app/models/alerta_model.dart';
 import 'package:app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -97,15 +98,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void alcanceDB(String cyclistId, double latitude, double longitude){
     String uid = ref.read(authenticationProvider).currentUser!.uid;
-    DatabaseReference alcances = FirebaseDatabase.instance.ref("Alcances/$cyclistId");
 
-    alcances.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
-      "Lat" : latitude,
-      "Lon" : longitude,
-      "IdConductor": uid,
-      "speed_alcance": _position!.speed,
-      "speed_alert": alertados[cyclistId]
-    });
+    Alerta alerta = Alerta(uid, cyclistId, DateTime.now(), latitude, longitude);
+    alerta.alertaDB();
+
   }
 
   void alertaDB(String cyclistId, double latitude, double longitude){
