@@ -12,6 +12,7 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:app/utils/type.dart';
 import 'package:app/models/user_model.dart';
 import 'package:app/models/incidente_model.dart';
+import 'package:app/utils/zone.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -38,9 +39,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   Map<String, UserSubscription> zonesListening = {};
   Map<String, UserSubscription> zonesListening2 = {};
-
-  //List<UserModel> listaUsuarios = [];
-
   Map<String, double> alertados = {};
 
   final Set<Marker> _markers = {};
@@ -73,26 +71,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     String uid = ref.read(authenticationProvider).currentUser!.uid;
     Incidente incidente = Incidente(uid, DateTime.now(), _position!.latitude, _position!.longitude);
     incidente.saveToDB();
-  }
-
-  String formatter(double number){
-
-    if(number.isNegative){
-      number = number.abs();
-      return "-${number.toStringAsFixed(0).padLeft(4, '0')}";
-    }
-
-    return "+${number.toStringAsFixed(0).padLeft(4, '0')}";
-  }
-
-  String getZone(Position position){
-    double lat = (position.latitude*100).ceilToDouble();
-    double lon = (position.longitude*100).floorToDouble();
-
-    lat = lat;
-    lon = lon;
-
-    return "${formatter(lat)};${formatter(lon)}";
   }
 
   void removeUserFromDB(UserType type, String zone){
@@ -249,7 +227,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
   }
   void updateZone(){
-    String newZone = getZone(_position!);
+    String newZone = Zone.getZone(_position!.latitude, _position!.longitude);
     if(newZone != currentZone){
       if(isCiclista){
         removeUserFromDB(UserType.Ciclista, currentZone);
@@ -293,7 +271,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         int newLat = lat - i;
         int newLon = lon - j;
         Position position = Position.fromMap({'latitude': newLat/100, 'longitude': newLon/100});
-        zones.add(getZone(position));
+        zones.add(Zone.getZone(position.latitude, position.longitude));
       }
     }
 
@@ -447,13 +425,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         updateMapPosition();
       }
     });
-/*
-    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
-      if(position != null){
-        print('*****************');
-        updatePositionDB();
-      }
-    });*/
   }
 
   @override
