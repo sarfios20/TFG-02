@@ -10,8 +10,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:app/utils/user_subscription.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:app/utils/type.dart';
-import 'package:app/models/userModel.dart';
-import 'package:app/models/IncidenteModel.dart';
+import 'package:app/models/user_model.dart';
+import 'package:app/models/incidente_model.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({Key? key}) : super(key: key);

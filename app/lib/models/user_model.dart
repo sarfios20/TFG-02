@@ -17,7 +17,7 @@ class UserModel {
   }
 
   void updateCurrent(){
-    String zone = Zone.getZone(latitude!, longitude!);
+    String zone = Zone.getZone(latitude, longitude);
     DatabaseReference position = FirebaseDatabase.instance.ref("$type/$zone/$uid");
 
     position.set({
