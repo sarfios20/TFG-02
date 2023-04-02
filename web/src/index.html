@@ -6,30 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" type="module"></script>
+    <script src="script2.js" type="module" defer></script>
 </head>
 <body>
     <h1>Firebase app</h1>
-    <form id="signup-form">
-		<h2>Sign up</h2>
-		<label for="email">Email:</label>
-		<input type="email" id="signup-email" name="email" required>
-		<br>
-		<label for="password">Password:</label>
-		<input type="password" id="signup-password" name="password" required>
-		<br>
-		<input class="logged-out" type="submit" value="sign up">
-	</form>
-    <form id="signin-form">
-		<h2>Sign in</h2>
-		<label for="email">Email:</label>
-		<input type="email" id="signin-email" name="email" required>
-		<br>
-		<label for="password">Password:</label>
-		<input type="password" id="signin-password" name="password" required>
-		<br>
+	<div id="signup-div">
+		<form id="signup-form">
+			<h2>Sign up</h2>
+			<label for="email">Email:</label>
+			<input type="email" id="signup-email" name="email" required>
+			<br>
+			<label for="password">Password:</label>
+			<input type="password" id="signup-password" name="password" required>
+			<br>
+			<input class="logged-out" type="submit" value="sign up">
+		</form>
 		<input class="logged-out" type="submit" value="sign in">
-	</form>
+	</div>
+
+	<div id="signin-div">
+		<form id="signin-form">
+			<h2>Sign in</h2>
+			<label for="email">Email:</label>
+			<input type="email" id="signin-email" name="email" required>
+			<br>
+			<label for="password">Password:</label>
+			<input type="password" id="signin-password" name="password" required>
+			<br>
+			<input class="logged-out" type="submit" value="sign in">
+		</form>
+		<input class="logged-out" type="submit" value="sign up">
+	</div>
+
+	<br>
+	<br>
     <input type="submit" class="logged-in" value="Logout" id="logout">
 </body>
 </html>
