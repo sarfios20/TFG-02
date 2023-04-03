@@ -10,12 +10,18 @@ class Alerta{
 
 
   void alertaDB(){
-    DatabaseReference alertaRef = FirebaseDatabase.instance.ref("Alertas/$cyclistId");
+    DatabaseReference alertaRef = FirebaseDatabase.instance.ref("Alertas");
 
-    alertaRef.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
+    alertaRef.child("Ciclista").child(cyclistId).child(DateTime.now().millisecondsSinceEpoch.toString()).set({
       "Lat" : latitude,
       "Lon" : longitude,
       "IdConductor": uid
+    });
+
+    alertaRef.child("Conductor").child(uid).child(DateTime.now().millisecondsSinceEpoch.toString()).set({
+      "Lat" : latitude,
+      "Lon" : longitude,
+      "IdCiclista": cyclistId
     });
   }
 }

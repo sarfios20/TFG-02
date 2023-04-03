@@ -97,22 +97,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   void alcanceDB(String cyclistId, double latitude, double longitude){
-    String uid = ref.read(authenticationProvider).currentUser!.uid;
-
-    Alerta alerta = Alerta(uid, cyclistId, DateTime.now(), latitude, longitude);
-    alerta.alertaDB();
+/**/
 
   }
 
   void alertaDB(String cyclistId, double latitude, double longitude){
     String uid = ref.read(authenticationProvider).currentUser!.uid;
-    DatabaseReference alertas = FirebaseDatabase.instance.ref("Alertas/$cyclistId");
 
-    alertas.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
-      "Lat" : latitude,
-      "Lon" : longitude,
-      "IdConductor": uid
-    });
+    Alerta alerta = Alerta(uid, cyclistId, DateTime.now(), latitude, longitude);
+    alerta.alertaDB();
   }
 /*
   void checkAlert(String cyclistId, double lat, double lon){
