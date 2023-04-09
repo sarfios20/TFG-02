@@ -1,7 +1,14 @@
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
+
 import { auth } from './firebase.js'
 
+
+onAuthStateChanged(auth, async (user) => {
+    console.log(user.uid)
+    window.location.href = "page.html"
+})
 
 const signupDiv = document.getElementById('signup-div')
 signupDiv.style.display = 'none'
@@ -34,7 +41,6 @@ signinForm.addEventListener('submit', async (e) => {
 
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-        console.log(userCredentials)
     } catch (error) {
         console.log(error)
     }
@@ -50,7 +56,6 @@ signupForm.addEventListener('submit', async (e) => {
 
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-        console.log(userCredentials)
     } catch (error) {
         console.log(error)
     }
