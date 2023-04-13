@@ -1,4 +1,4 @@
-import './logout.js'
+/*import './logout.js'
 import { database } from './firebase.js'
 
 console.log('Hello world')
@@ -10,4 +10,4 @@ window.initMap = function initMap() {
     console.log('initMap');
     // Use the firebaseConfig object here
     console.log(firebaseConfig);
-}
+}*/
