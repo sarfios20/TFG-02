@@ -1,13 +1,20 @@
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
-
+import { signOut } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
 import { auth } from './firebase.js'
 
 
 onAuthStateChanged(auth, async (user) => {
     console.log(user.uid)
     window.location.href = "page.html"
+})
+
+const logout = document.getElementById('logout')
+
+logout.addEventListener('click', async (e) => {
+    await signOut(auth)
+    console.log('user signed out')
 })
 
 const signupDiv = document.getElementById('signup-div')
