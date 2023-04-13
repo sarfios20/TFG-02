@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script3.js" type="module" defer></script>
+    <script src="main.js" type="module" defer></script>
+    <script src="./app/index.js" type="module" defer></script>
 </head>
 <body>
     <div style="display: flex;">
@@ -21,7 +22,7 @@
             <input type="password" id="signup-password" name="password" required>
             <label for="password">Repeat password:</label>
             <input type="password" id="signup-password-repeat" name="password" required>
-            <input class="logged-out" type="submit" value="sign up">
+            <input type="submit" value="sign up">
         </form>
     </div>
     <div id="signin-div">
@@ -30,7 +31,8 @@
             <input type="email" id="signin-email" name="email" required>
             <label for="password">Password:</label>
             <input type="password" id="signin-password" name="password" required>
-            <input class="logged-out" type="submit" value="sign in">
+            <input type="submit" value="sign in">
         </form>
+    </div>
 </body>
 </html>

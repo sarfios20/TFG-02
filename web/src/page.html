@@ -9,13 +9,15 @@
 <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGoaO3KdtTWSkpd9C3U9whxkGeinP6G9s"></script>
     <script src="js.js"></script>
-    <script src="script3.js" type="module" defer></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" type="module" defer></script>
+    <script src="./app/page.js" type="module" defer></script>
 </head>
 <body onload="initMap()">
     <h1>Reading data from Realtime Database</h1>
     <p>Open the console to see the data</p>
     <div id="map" style="height: 500px"></div>
     <button onclick="myFunction()">Click me!</button>
-    <button id="logout">logout</button>
+    <input id='logout-button' type="submit" value="logout">
 </body>
 </html>
