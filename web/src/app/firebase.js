@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -11,6 +12,9 @@ const firebaseConfig = {
    messagingSenderId: "235696168560",
    appId: "1:235696168560:web:729f7b87eb4ccbd8139eb5"
 };
+
 // Initialize Firebase
+
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const database = getDatabase(app);
