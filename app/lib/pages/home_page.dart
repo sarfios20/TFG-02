@@ -371,10 +371,24 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
   }
 
+  Future<void> taaad() async {
+    DatabaseReference readCiclistas = FirebaseDatabase.instance.ref('/');
+    print('-----------');
+    print(readCiclistas.path);
+    final snapshot = await readCiclistas.get();
+    if (snapshot.exists) {
+      debugPrint(snapshot.value.toString());
+    } else {
+      print('No data available.');
+    }
+    print('*************');
+  }
+
   @override
   void initState() {
     super.initState();
-
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    taaad();
     BitmapDescriptor.fromAssetImage(const ImageConfiguration(size: Size(12, 12)),
         'assets/pedal_bike.png')
         .then((d) {
