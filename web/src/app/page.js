@@ -11,3 +11,8 @@ window.initMap = function initMap() {
     // Use the firebaseConfig object here
     console.log(firebaseConfig);
 }*/
+
+
+window.initMap = function initMap() {
+    console.log('wwww')
+}

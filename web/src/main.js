@@ -3,11 +3,10 @@ import { auth } from "./app/firebase.js"
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        if (window.location.pathname !== '/src/page.html') {
-            window.location.href = "page.html";
+        if (window.location.pathname !== '/src/text.html') {
+            window.location.href = "text.html";
         }
     } else {
-        console.log('User signed out--');
         if (window.location.pathname !== '/src/index.html') {
             window.location.href = "index.html";
         }
