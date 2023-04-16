@@ -11,4 +11,11 @@ logout.addEventListener('click', async (e) => {
 
 window.initMap = function initMap() {
     console.log('initMap');
+    var center = {lat: 40.73877, lng: -3.8235};
+
+    // Create a new Google Map instance
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: center
+    });
 }
