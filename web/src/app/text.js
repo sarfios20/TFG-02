@@ -12,7 +12,7 @@ logout.addEventListener('click', async (e) => {
 })
 
 const shame = document.getElementById('shame')
-
+reducciónMedia()
 console.log(database);
 
 
@@ -42,3 +42,17 @@ window.initMap = function initMap() {
         center: center
     });
 }
+//estto es temporal
+function reducciónMedia() {
+    const dbRef = ref(database, '/Alertas/Conductor')
+    onValue(dbRef, (snapshot) => {
+        const data = snapshot.val()
+        for (const uid in data) {
+            for (const timestamp in data[uid]) {
+                console.log(data[uid][timestamp]);
+            }
+        }
+         // Display the data in the console
+    });
+}
+
