@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGoaO3KdtTWSkpd9C3U9whxkGeinP6G9s&callback=initMap" async defer></script>
+    <!-- Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGoaO3KdtTWSkpd9C3U9whxkGeinP6G9s" async defer></script>
+    
     <script src="main.js" type="module" defer></script>
     <script src="./app/text.js" type="module"></script>
 </head>
 <body onload="initMap()">
     <div id="map" style="height: 500px"></div>
+    <div id="shame"></div>
     <input id='logout-button' type="submit" value="logout">
+    <input id='test' type="submit" value="test">
 </body>
 </html>

@@ -1,5 +1,7 @@
 import { signOut } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
 import { auth } from "./firebase.js"
+import { database } from "./firebase.js"
+import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
 console.log('text.js')
 
@@ -7,6 +9,27 @@ const logout = document.getElementById('logout-button')
 
 logout.addEventListener('click', async (e) => {
     await signOut(auth)
+})
+
+const shame = document.getElementById('shame')
+
+console.log(database);
+
+
+
+const test = document.getElementById('test')
+
+
+test.addEventListener('click', async (e) => {
+    console.log('test');
+
+    const dbRef = ref(database, '/') // Use '/' to refer to the root of the database
+
+    // Read all data from Firebase database
+    onValue(dbRef, (snapshot) => {
+        const data = snapshot.val()
+        console.log(data) // Display the data in the console
+    });
 })
 
 window.initMap = function initMap() {
