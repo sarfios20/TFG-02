@@ -12,7 +12,7 @@ class Alcance{
 
 
   void alcanceDB(){
-    DatabaseReference alertaRef = FirebaseDatabase.instance.ref("Alertas");
+    DatabaseReference alertaRef = FirebaseDatabase.instance.ref("Alcance");
 
     alertaRef.child("Ciclistas").child(cyclistId).child(DateTime.now().millisecondsSinceEpoch.toString()).set({
       "Lat" : latitude,
