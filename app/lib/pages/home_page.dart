@@ -210,9 +210,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   void getUserFromZone(UserType type){
 
+    print('getUserFromZone');
+    print(type);
+
     Map<String, UserSubscription> zones = zonesListening;
 
     zones.forEach((key, value) {
+      print(key);
       getUserPositions(type, key);
     });
   }
@@ -231,11 +235,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     int lon = int.parse(aux[1]);
 
     List<String> zones = List.empty(growable: true);
-
+print('*********');
     for (int i = -1; i < 2; i++) {
       for (int j = -1; j < 2; j++) {
+
         int newLat = lat - i;
         int newLon = lon - j;
+        print("$newLat---$newLon");
         Position position = Position.fromMap({'latitude': newLat/100, 'longitude': newLon/100});
         zones.add(Zone.getZone(position.latitude, position.longitude));
       }
