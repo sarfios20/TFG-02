@@ -97,10 +97,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     });
   }
 
-  void alcanceDB(String cyclistId, double latitude, double longitude, speedAlcance, speedAlerta){
+  void alcanceDB(String cyclistId, double latitude, double longitude,double speedAlcance,double speedAlerta){
     String uid = ref.read(authenticationProvider).currentUser!.uid;
 
-    Alcance alcance = Alcance(uid, cyclistId, DateTime.now(), latitude, longitude);
+    Alcance alcance = Alcance(uid, cyclistId, DateTime.now(), latitude, longitude, speedAlcance, speedAlerta);
     alcance.alcanceDB();
 /**/
 
