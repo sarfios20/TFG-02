@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app/models/Alcance_model.dart';
 import 'package:app/models/alerta_model.dart';
 import 'package:app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     });
   }
 
-  void alcanceDB(String cyclistId, double latitude, double longitude){
+  void alcanceDB(String cyclistId, double latitude, double longitude, speedAlcance, speedAlerta){
+    String uid = ref.read(authenticationProvider).currentUser!.uid;
+
+    Alcance alcance = Alcance(uid, cyclistId, DateTime.now(), latitude, longitude);
+    alcance.alcanceDB();
 /**/
 
   }
@@ -107,30 +112,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     Alerta alerta = Alerta(uid, cyclistId, DateTime.now(), latitude, longitude);
     alerta.alertaDB();
   }
-/*
-  void checkAlert(String cyclistId, double lat, double lon){
-    double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
-    if(distance > distanceAlert){
-      return;
-    }
-    cyclistAlert[cyclistId] = _position!.speed;
-    DateTime curent = DateTime.now();
-    final difference = curent.difference(timeLast).inSeconds;
-    if(difference > alertCooldown){
-      alert();
-    }
-  }
 
-  void checkAlcance(String cyclistId, double lat, double lon){
-    double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
-    DateTime curent = DateTime.now();
-    final difference2 = curent.difference(timeLast2).inSeconds;
-    if(distance < distanceAlcance && difference2 > alcanceCooldown){
-      alcanceDB(cyclistId, lat, lon);
-      timeLast2 = DateTime.now();
-    }
-  }
-*/
   void checkDistance(String cyclistId, double lat, double lon){
     double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, lat, lon);
     if(distance > distanceAlert){
@@ -141,7 +123,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final difference = curent.difference(timeLast).inSeconds;
     final difference2 = curent.difference(timeLast2).inSeconds;
     if(distance < distanceAlcance && difference2 > alcanceCooldown){
-      alcanceDB(cyclistId, lat, lon);
+      alcanceDB(cyclistId, lat, lon, _position!.speed, alertados[cyclistId]);
       timeLast2 = DateTime.now();
     }
     if(difference < alertCooldown){

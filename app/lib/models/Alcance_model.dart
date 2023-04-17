@@ -11,7 +11,7 @@ class Alcance{
   final double speedAlcance;
 
 
-  void alertaDB(){
+  void alcanceDB(){
     DatabaseReference alertaRef = FirebaseDatabase.instance.ref("Alertas");
 
     alertaRef.child("Ciclistas").child(cyclistId).child(DateTime.now().millisecondsSinceEpoch.toString()).set({
