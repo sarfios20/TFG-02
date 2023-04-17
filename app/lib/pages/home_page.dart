@@ -97,10 +97,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     });
   }
 
-  void alcanceDB(String cyclistId, double latitude, double longitude, speedAlcance, speedAlerta){
+  void alcanceDB(String cyclistId, double latitude, double longitude,double speedAlcance,double speedAlerta){
     String uid = ref.read(authenticationProvider).currentUser!.uid;
 
-    Alcance alcance = Alcance(uid, cyclistId, DateTime.now(), latitude, longitude);
+    Alcance alcance = Alcance(uid, cyclistId, DateTime.now(), latitude, longitude, speedAlcance, speedAlerta);
     alcance.alcanceDB();
 /**/
 
@@ -123,7 +123,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final difference = curent.difference(timeLast).inSeconds;
     final difference2 = curent.difference(timeLast2).inSeconds;
     if(distance < distanceAlcance && difference2 > alcanceCooldown){
-      alcanceDB(cyclistId, lat, lon, _position!.speed, alertados[cyclistId]);
+      alcanceDB(cyclistId, lat, lon, _position!.speed, alertados[cyclistId]!);
       timeLast2 = DateTime.now();
     }
     if(difference < alertCooldown){
