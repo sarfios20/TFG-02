@@ -34,13 +34,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   String currentZone = "";
   double distanceAlert = 250.0;
   double distanceAlcance = 100.0;
+  double distanceUpdate = 10.0;
   int alertCooldown = 30;
   int alcanceCooldown = 30;
   DateTime timeLast = DateTime.now();
   DateTime timeLast2 = DateTime.now();
 
   Map<String, UserSubscription> zonesListening = {};
-  Map<String, UserSubscription> zonesListening2 = {};
   Map<String, double> alertados = {};
 
   final Set<Marker> _markers = {};
@@ -102,7 +102,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     Alcance alcance = Alcance(uid, cyclistId, DateTime.now(), latitude, longitude, speedAlcance, speedAlerta);
     alcance.alcanceDB();
-/**/
 
   }
 
@@ -213,10 +212,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     Map<String, UserSubscription> zones = zonesListening;
 
-    if(type == UserType.Conductor){
-      zones = zonesListening2;
-    }
-
     zones.forEach((key, value) {
       getUserPositions(type, key);
     });
@@ -254,10 +249,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
     Map<String, UserSubscription> zones = zonesListening;
 
-    if(type == UserType.Conductor){
-      zones = zonesListening2;
-    }
-
     //nuevos
     for (var newZone in newZones) {
       if(!zones.containsKey(newZone)){
@@ -278,10 +269,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   void cancelSubscriptions(UserType type){
 
     Map<String, UserSubscription> zones = zonesListening;
-
-    if(type == UserType.Conductor){
-      zones = zonesListening2;
-    }
 
     zones.forEach((key, value) {
       value.cancel();
@@ -353,24 +340,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
   }
 
-  Future<void> taaad() async {
-    DatabaseReference readCiclistas = FirebaseDatabase.instance.ref('/');
-    print('-----------');
-    print(readCiclistas.path);
-    final snapshot = await readCiclistas.get();
-    if (snapshot.exists) {
-      debugPrint(snapshot.value.toString());
-    } else {
-      print('No data available.');
-    }
-    print('*************');
+  void ejemplo(){
+    List<String> adyacentes = getAdjacentZones();
+    print(currentZone);
+    print(adyacentes);
   }
 
   @override
   void initState() {
     super.initState();
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    taaad();
     BitmapDescriptor.fromAssetImage(const ImageConfiguration(size: Size(12, 12)),
         'assets/pedal_bike.png')
         .then((d) {
@@ -390,15 +368,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       updateMapPosition();
     });
 
+
+
     Geolocator.getPositionStream(locationSettings: locationSettings2).listen((Position? position) {
       if(position != null){
         double distance = Geolocator.distanceBetween(_position!.latitude, _position!.longitude, position.latitude, position.longitude);
-        if(distance > 10){
+        _position = position;
+
+        if(distance > distanceUpdate){
           updatePositionDB();
         }
-        _position = position;
         String zone = currentZone;
         updateZone();
+        //ejemplo();
         //quizas gestionar subscripciones en updateZone()
         if(zone != currentZone){
           subscribeToZones(type);
