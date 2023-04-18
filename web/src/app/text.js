@@ -23,7 +23,7 @@ logout.addEventListener('click', async (e) => {
     await signOut(auth)
 })
 
-const shame = document.getElementById('shame')
+
 console.log(database);
 
 
@@ -55,6 +55,7 @@ window.initMap = function initMap() {
 }
 //esto es temporal
 function reducciónMedia() {
+    const shame = document.getElementById('shame')
     const dbRef = ref(database, '/Alcance/Conductores/'+auth.currentUser.uid) 
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val()
@@ -65,6 +66,8 @@ function reducciónMedia() {
             reducciónMedia = reducciónMedia + speed_alerta - speed_alcance;           
         }
         console.log(reducciónMedia/(Object.keys(data).length));
+        //cool chart
+        shame.innerText = `Average Speed Reduction: ${reducciónMedia * 3.6} km/h`
          // Display the data in the console
     });
 }
