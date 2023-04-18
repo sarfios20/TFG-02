@@ -11,7 +11,6 @@ signupForm.addEventListener('submit', async (e) => {
 
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-        console.log(userCredentials)
     } catch (error) {
         console.log(error)
         //manejo de errores

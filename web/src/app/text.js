@@ -1,3 +1,4 @@
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js'
 import { signOut } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"
 import { auth } from "./firebase.js"
 import { database } from "./firebase.js"
@@ -5,14 +6,24 @@ import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-
 
 console.log('text.js')
 
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        reducciónMedia()
+    }
+})
+
+function everything() {
+
+}
+
 const logout = document.getElementById('logout-button')
 
 logout.addEventListener('click', async (e) => {
+    console.log('logout');
     await signOut(auth)
 })
 
 const shame = document.getElementById('shame')
-reducciónMedia()
 console.log(database);
 
 
@@ -42,16 +53,18 @@ window.initMap = function initMap() {
         center: center
     });
 }
-//estto es temporal
+//esto es temporal
 function reducciónMedia() {
-    const dbRef = ref(database, '/Alertas/Conductor')
+    const dbRef = ref(database, '/Alcance/Conductores/'+auth.currentUser.uid) 
     onValue(dbRef, (snapshot) => {
         const data = snapshot.val()
-        for (const uid in data) {
-            for (const timestamp in data[uid]) {
-                console.log(data[uid][timestamp]);
-            }
+        let reducciónMedia = 0
+        for (const timestamp in data) {
+            let speed_alcance = data[timestamp]['speed_alcance'];
+            let speed_alerta = data[timestamp]['speed_alerta'];
+            reducciónMedia = reducciónMedia + speed_alerta - speed_alcance;           
         }
+        console.log(reducciónMedia/(Object.keys(data).length));
          // Display the data in the console
     });
 }

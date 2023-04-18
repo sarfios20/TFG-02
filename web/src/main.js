@@ -4,7 +4,7 @@ import { auth } from "./app/firebase.js"
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         if (window.location.pathname !== '/src/text.html') {
-            window.location.href = "text.html";
+            window.location.href = "text.html"
         }
     } else {
         if (window.location.pathname !== '/src/index.html') {

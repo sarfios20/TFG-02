@@ -11,7 +11,6 @@ signinForm.addEventListener('submit', async (e) => {
 
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password)
-        console.log(userCredentials)
     } catch (error) {
         console.log(error)
         //manejo de errores
