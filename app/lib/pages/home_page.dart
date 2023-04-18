@@ -341,10 +341,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     }
   }
 
-  void ejemplo(){
-    List<String> adyacentes = getAdjacentZones();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -379,8 +375,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         }
         String zone = currentZone;
         updateZone();
-        //ejemplo();
-        //quizas gestionar subscripciones en updateZone()
         if(zone != currentZone){
           subscribeToZones(type);
         }
