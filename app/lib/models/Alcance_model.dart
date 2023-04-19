@@ -14,7 +14,7 @@ class Alcance{
   void alcanceDB(){
     DatabaseReference alertaRef = FirebaseDatabase.instance.ref("Alcance");
 
-    alertaRef.child("Ciclistas").child(cyclistId).child(DateTime.now().millisecondsSinceEpoch.toString()).set({
+    alertaRef.child("Ciclistas").child(cyclistId).child(timestamp.toString()).set({
       "Lat" : latitude,
       "Lon" : longitude,
       "IdConductor": uid,
@@ -22,7 +22,7 @@ class Alcance{
       "speed_alerta": speedAlerta
     });
 
-    alertaRef.child("Conductores").child(uid).child(DateTime.now().millisecondsSinceEpoch.toString()).set({
+    alertaRef.child("Conductores").child(uid).child(timestamp.toString()).set({
       "Lat" : latitude,
       "Lon" : longitude,
       "IdCiclista": cyclistId,
