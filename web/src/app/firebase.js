@@ -5,14 +5,15 @@ import { getDatabase } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-d
 console.log('Hello world')
 // Your web app's Firebase configuration
 const firebaseConfig = {
-   apiKey: "AIzaSyCQb6kpbbyEPq03tWUPfkL7J7V60xRmKv8",
-   authDomain: "tfg-01-3db43.firebaseapp.com",
-   databaseURL: "https://tfg-01-3db43-default-rtdb.europe-west1.firebasedatabase.app",
-   projectId: "tfg-01-3db43",
-   storageBucket: "tfg-01-3db43.appspot.com",
-   messagingSenderId: "235696168560",
-   appId: "1:235696168560:web:729f7b87eb4ccbd8139eb5"
-};
+   apiKey: "AIzaSyAelV_hXHuGRUA9aoGEtZc4_LjWXXlpzQ8",
+   authDomain: "tfg-ciclistas.firebaseapp.com",
+   databaseURL: "https://tfg-ciclistas-default-rtdb.europe-west1.firebasedatabase.app",
+   projectId: "tfg-ciclistas",
+   storageBucket: "tfg-ciclistas.appspot.com",
+   messagingSenderId: "229343237349",
+   appId: "1:229343237349:web:b5d6e553799941e7f6f00c"
+}
+
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
